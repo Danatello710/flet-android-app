@@ -1,0 +1,34 @@
+name: Build Flet APK
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Flet
+        run: |
+          pip install flet
+          flet --version
+
+      - name: Build APK
+        run: |
+          # Команда flet build сама скачает всё нужное
+          flet build apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app-bundle
+          path: build/apk/*.apk
