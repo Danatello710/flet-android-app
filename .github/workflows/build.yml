@@ -17,20 +17,17 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install Flet and Dependencies
+      - name: Install Flet
         run: |
           pip install flet --upgrade
-          # Если у тебя есть файл requirements.txt, раскомментируй строку ниже:
-          # pip install -r requirements.txt
 
       - name: Build APK
         run: |
-          # Собираем приложение. Мы используем --project для папки и --product для названия на экране.
-          # Флаг --icon требует, чтобы файл icon.png лежал в корне репозитория.
-          flet build apk --project "LoliGram" --product "LoliGram" --icon "icon.png"
+          # Теперь настройки подтянутся автоматически из flet.yaml
+          flet build apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: LoliGram-APK
+          name: LoliGram-Release
           path: build/apk/*.apk
