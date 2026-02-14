@@ -24,8 +24,8 @@ jobs:
 
       - name: Build APK
         run: |
-          # Команда flet build сама скачает всё нужное
-          flet build apk
+          # Собираем приложение с новым именем и иконкой
+          flet build apk --project "LoliGram" --product "LoliGram" --icon "icon.png"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
