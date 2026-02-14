@@ -16,18 +16,23 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          # Используем стабильную версию, которую обычно предпочитает Flet
+          flutter-version: '3.24.0'
 
-      - name: Install Flet
+      - name: Install Flet and Dependencies
         run: |
           pip install flet --upgrade
+          # Если у тебя есть сторонние библиотеки, они установятся здесь
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Build APK
         run: |
-          # Теперь настройки подтянутся автоматически из flet.yaml
-          flet build apk
+          # --yes автоматически отвечает "да" на запрос об установке нужного SDK
+          # Все остальные настройки (имя LoliGram, иконка) возьмутся из flet.yaml
+          flet build apk --yes
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: LoliGram-Release
+          name: LoliGram-Release-APK
           path: build/apk/*.apk
